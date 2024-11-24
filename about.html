@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me</title>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan&display=swap" rel="stylesheet">
+    <style>
+        /* General Styling */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #c6c6ec; /* Dark gray */
+            color: white;
+        }
+
+        /* Header Styling with Live Wallpaper */
+        header {
+            position: relative;
+            height: 30vh; /* Half viewport height */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white; /* Text color for header */
+            overflow: hidden; /* Prevent overflow from video */
+        }
+
+        /* Video Background */
+        header video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+            z-index: -1; /* Send video to background */
+        }
+
+        /* Header content styles */
+        .header-content {
+            display: flex;
+            justify-content: flex-end; /* Align items to the right */
+            width: 100%; /* Ensure it takes up the full width */
+            position: absolute;
+            top: 10px; /* Adjust the top margin */
+            padding-right: 20px; /* Add padding to the right */
+        }
+
+        .header-content .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%; 
+            border: 2px solid #000; 
+        }
+
+        .header-content .back-to-home {
+            color: #1E90FF;
+            text-decoration: none;
+            font-size: 1.2em;
+            margin-left: 20px;
+            display: inline-block;
+        }
+
+        header h1 {
+            margin: 10px 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        h2 {
+            margin: 10px 0;
+            font-size: 2.0em;
+            color: white;
+        }
+
+        h3 {
+            color: white;
+            margin: 10px 0;
+            font-family: 'League Spartan', sans-serif;
+            font-size: 2.5em;
+        }
+
+        header #date-time {
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: white;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px; /* Initially hidden */
+            width: 250px;
+            height: 100%;
+            background-color: #001f3f; /* Dark Blue */
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+            transition: left 0.3s ease;
+            padding-top: 60px;
+            z-index: 999;
+        }
+
+        .sidebar.active {
+            left: 0; /* Visible when active */
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+
+        .sidebar a:hover {
+            background-color: #1E90FF; /* Bright Blue */
+        }
+
+        /* Sidebar Toggle Button */
+        .toggle-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #001f3f; /* Dark Blue */
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+
+        .toggle-btn:hover {
+            background-color: #1E90FF; /* Bright Blue */
+        }
+
+        /* Modern Footer Styling */
+.modern-footer {
+    background: #002b80;
+    color: white;
+    padding: 40px 20px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.footer-container div {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-about h3,
+.footer-links h3,
+.footer-contact h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #ffd700; /* Gold underline */
+    display: inline-block;
+    padding-bottom: 1px;
+}
+
+.footer-about p,
+.footer-contact p {
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links ul li {
+    margin-bottom: 10px;
+}
+
+.footer-links ul li a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links ul li a:hover {
+    color: #ffd700; /* Gold hover effect */
+}
+
+.social-icons {
+    margin-top: 10px;
+}
+
+.social-icons a img {
+    width: 25px;
+    margin-right: 10px;
+    transition: transform 0.3s ease;
+}
+
+.social-icons a img:hover {
+    transform: scale(1.2);
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 5px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 5px;
+    font-size: 0.8em;
+}
+
+.footer-bottom a {
+    color: #ffd700;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.footer-bottom a:hover {
+    text-decoration: underline;
+}
+/* Keyframes for sliding animation */
+@keyframes slideInOut {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    50% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+        /* Adjust the container to provide space for the sound player */
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            padding-bottom: 0px; /* Increased padding-bottom to prevent overlap with footer */
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        /* Align images and text in a row */
+        .images {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px; /* Space between images */
+            align-items: center; /* Vertically align the images */
+        }
+
+        .images .image-container {
+            text-align: center; /* Center text under images */
+            width: 150px;  /* Set the same width for each image container */
+        }
+
+        .images img {
+            width: 150px;  /* Set all images to the same width */
+            height: 150px; /* Set all images to the same height */
+            object-fit: cover; /* Ensure all images maintain aspect ratio */
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px; /* Space below images */
+        }
+
+        /* Align the text below each image */
+        .images p {
+            text-align: center;
+            color: white;
+            margin-top: 5px;
+        }
+
+        /* Styling for the Mazda image */
+        .mazda {
+            width: 400px; /* Adjust the size as needed */
+            height: auto; /* Keeps the aspect ratio intact */
+        }
+
+        /* Styling for the Movies Images */
+.movies-images {
+    display: flex;
+    justify-content: center; /* Center align the images */
+    gap: 20px; /* Space between images */
+    margin-bottom: 20px; /* Space below the images */
+}
+
+.movies-images .image-container {
+    width: 180px; /* Width of the image container */
+    height: 225px; /* Height of the image container (4:5 aspect ratio) */
+    overflow: hidden; /* Ensure that the image doesn't overflow */
+    border-radius: 10px; /* Optional: Rounded corners */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Optional: Shadow for the container */
+    position: relative; /* Allows images to stay within bounds */
+}
+
+.movies-images img {
+    width: 100%; /* Make the image fill the width of the container */
+    height: 100%; /* Make the image fill the height of the container */
+    object-fit: cover; /* Ensure the image covers the container without distortion */
+    border-radius: 10px; /* Optional: Rounded corners on the image itself */
+}
+
+        /* Biodata Image Slideshow Styles */
+        .image-row {
+            position: relative;
+            width: 100%;
+            height: 300px; /* Adjust based on image size */
+            overflow: show;
+            margin-bottom: -100px; 
+        }
+
+        .image-row img {
+            width: 180px; /* Set the width of each square image */
+            height: 180px; /* Set the height of each square image */
+            object-fit: cover; /* Ensures the image covers the square proportionally */
+            border: 2px solid white; /* Optional: Adds a border around the images */
+            border-radius: 15px; /* Optional: Slightly round the corners */
+            transition: transform 0.3s ease; /* Smooth transition for zoom effect */
+        }
+
+        .image-row img:hover {
+            transform: scale(1.2); /* Zoom the image slightly */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* Optional: Add shadow on hover */
+        }
+
+        /* Ordered, Unordered, and Custom Lists */
+        ul {
+            list-style-type:circle;
+        }
+
+        table td ol {
+            margin: 0; /* Removes extra margins */
+            padding-left: 40px; /* Adds consistent left padding */
+        }
+
+        table td ol li {
+            margin: 0; /* Ensures no extra space between list items */
+        }
+
+        .custom-list li::marker {
+            content: '⭐';
+            color: #FFD700; /* Gold color */
+        }
+
+        /* kotak biru */
+        .add-box {
+            margin-top: 20px; /* Reduced margin at the top */
+            text-align: center;
+            background-color: #006bb3; /* blue box color */
+            padding: 15px; /* Reduced padding */
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* Slightly smaller shadow */
+            width: 90%; /* Adjusted width to make it smaller */
+            max-width: 800px; /* Limit the maximum width */
+            margin-left: auto;
+            margin-right: auto; /* Center align the boxes */
+        }
+
+        /* Table Styling */
+        table {
+            width: 80%; /* Or set a specific width like 90% or 100% */
+            border-collapse: collapse;
+            margin: 20px auto; /* This will center the table */
+            max-width: 800px; /* Optional: set a max width */
+        }
+
+        table, th, td {
+            border: 2px solid black; 
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        /* Update table styling to differentiate left and right columns */
+        table th {
+            background-color: #997a00; /* Gold for left column */
+            color: white;
+        }
+
+        table td {
+            background-color: #a3a375; /* Dark gray for the right column */
+            color: white; /* Text color for better readability */
+        }
+
+        /* Sound Player Section */
+        .sound-player {
+            margin-top: 20px;
+            text-align: center;
+            background-color: #006bb3; /* Blue box color */
+            padding: 15px; /* Adjusted padding */
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 90%; /* Same width as other boxes */
+            max-width: 800px; /* Limit the maximum width */
+            margin-left: auto;
+            margin-right: auto; /* Center align the box */
+            margin-bottom: 20px; /* Add space between the player and footer */
+        }
+
+        .sound-player h2 {
+            color: white;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        /* Song List Styling */
+        .song-list {
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        /* Individual Song Box Styling */
+        .song-box {
+            background-color:  #8c8c8c; /* Slightly lighter box color */
+            width: 200px; /* Fixed width for all boxes */
+            max-width: 100%; /* Make sure the box doesn’t exceed the parent width */
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            color: white;
+            margin-top: 10px;
+        }
+
+        /* Song Image Styling */
+        .song-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Song Details and Controls */
+        .song-details {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Play, Pause, Stop Buttons */
+        .controls button {
+            background-color: #1DB954; /* Green */
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            margin: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .controls button:hover {
+            background-color: #1ed760; /* Lighter green on hover */
+        }
+
+        .controls .pause-button {
+            background-color: #FFCC00; /* Yellow for Pause */
+        }
+
+        .controls .stop-button {
+            background-color: #FF3B30; /* Red for Stop */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .song-list {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .song-box {
+                width: 80%; /* Reduced width on smaller screens */
+                margin-bottom: 25px;
+            }
+
+            .song-player {
+                width: 100%; /* Ensure the sound player fits the screen */
+            }
+
+            /* Ensuring that multiple song boxes fit the screen properly */
+            .song-list {
+                justify-content: center; /* Center the boxes in small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Live Wallpaper -->
+    <header>
+        <video autoplay loop muted>
+            <source src="abstract-organic-lines-moewalls-com.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <h1>About Me</h1>
+        <div id="date-time"></div>
+        <div class="header-content">
+            <img class="logo" src="images/nk.jpg" alt="Website Logo">
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Me</a>
+        <a href="achievement.html">Achievement</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="resume.html">Resume</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <!-- Sidebar Toggle Button -->
+    <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+
+    <!-- Main Content -->
+    <div class="add-box">
+    <div class="container">
+        <!-- Biodata Section -->
+        <div class="section" id="biodata">
+            <h3>My Biodata</h3>
+
+            <!-- Image Row -->
+            <div class="image-row">
+                <img src="images/yin3.jpg" alt="Picture 1">
+                <img src="images/yin1.jpg" alt="Picture 2">
+                <img src="images/yin2.jpg" alt="Picture 3">
+            </div>
+
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <td>Nurin Karmila Binti Abdullah</td>
+                </tr>
+                <tr>
+                    <th>Age</th>
+                    <td>19 years</td>
+                </tr>
+                <tr>
+                    <th>Date of Birth</th>
+                    <td>30 March 2004</td>
+                </tr>
+                <tr>
+                    <th>Gender</th>
+                    <td>Female</td>
+                </tr>
+                <tr>
+                    <th>Place</th>
+                    <td>Kota Tinggi, Johor</td>
+                </tr>
+                <tr>
+                    <th>Hobbies</th>
+                 <td>
+                    <ol>
+                        <li>Sleeping</li>
+                        <li>Playing Video Games</li>
+                        <li>Watching Anime</li>
+                    </ol>
+                </td>
+            </tr>
+                <tr>
+                    <th>Favorite Colors</th>
+                    <td>
+                        <ul>
+                            <li>Blue</li>
+                            <li>Black</li>
+                            <li>Green</li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+     </div>
+  </div>
+        <!-- Favorite Food Section -->
+<div class="add-box">
+    <div class="section" id="food">
+        <h3>My Favourite <sub>Food</sub></h3>
+        <ul class="custom-list">
+            <li>Spaghetti Carbonara</li>
+            <li>Kambing Perap</li>
+            <li>Nasi Kandar</li>
+        </ul>
+        <div class="images" id="food-images">
+            <div class="image-container">
+                <img src="images/spcarbonara.jpg" alt="Food 1">
+            </div>
+            <div class="image-container">
+                <img src="images/kperap.jpg" alt="Food 2">
+            </div>
+            <div class="image-container">
+                <img src="images/nkandar.jpg" alt="Food 3">
+            </div>
+        </div>
+    </div>
+</div>
+
+      
+        <!-- Favorite Drinks Section -->
+<div class="add-box">
+    <div class="section" id="drink">
+        <h3>My Favourite <sup>Drinks</sup></h3>
+        <ul>
+            <li>Fresh Apple</li>
+            <li>Tembikai Laici</li>
+            <li>Fresh Orange</li>
+            <li>Extrajoss Anggur</li>
+        </ul>
+        <div class="images" id="drink-images">
+            <div class="image-container">
+                <img src="images/applejuice.jpg" alt="Drink 1">
+            </div>
+            <div class="image-container">
+                <img src="images/tembikai.png" alt="Drink 2">
+            </div>
+            <div class="image-container">
+                <img src="images/orangejuice.jpg" alt="Drink 3">
+            </div>
+            <div class="image-container">
+                <img src="images/extra.jpeg" alt="Drink 4">
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- Movies Section -->
+<div class="add-box">
+    <h3>Movies</h3>
+    <!-- Images at the top of the Movies Section -->
+    <div class="movies-images">
+        <div class="image-container">
+            <img src="images/dilwalemovie.jpg" alt="Dilwale Movie">
+        </div>
+        <div class="image-container">
+            <img src="images/sao.jpg" alt="Sword Art Online Movie">
+        </div>
+        <div class="image-container">
+            <img src="images/haikyu.jpg" alt="Haikyu Movie">
+        </div>
+    </div>
+    <p>My all-time favorite movies are:
+        <ol>
+            <li>Dilwale</li>
+            <li>Sword Art Online Movies</li>
+            <li>Haikyu movies</li>
+        </ol>
+    </p>
+</div>
+
+        <!-- Anime Section -->
+<div class="add-box">
+    <h3>Anime</h3>
+    <p>Here are my top 3 character anime:</p>
+    <div class="images">
+        <div class="image-container">
+            <img src="images/shinobu.jpeg" alt="Shinobu Kocho">
+            <p>Shinobu Kocho - Demon Slayer</p>
+        </div>
+        <div class="image-container">
+            <img src="images/levi.jpg" alt="Levi Ackerman">
+            <p>Levi Ackerman - Attack on Titan</p>
+        </div>
+        <div class="image-container">
+            <img src="images/asuna.jpg" alt="Asuna">
+            <p>Asuna - Sword Art Online</p>
+        </div>
+    </div>
+</div>
+
+<!-- Games Section -->
+<div class="add-box">
+    <h3>Games</h3>
+    <p>My favorite games to play:</p>
+    <div class="images">
+        <div class="image-container">
+            <img src="images/mlbb.png" alt="Mobile Legends">
+            <p>Mobile Legends</p>
+        </div>
+        <div class="image-container">
+            <img src="images/valorant.png" alt="Valorant">
+            <p>Valorant</p>
+        </div>
+        <div class="image-container">
+            <img src="images/gta.png" alt="Grand Theft Auto">
+            <p>Grand Theft Auto</p>
+        </div>
+    </div>
+</div>
+
+
+       <!-- Car section -->
+       <div class="add-box">
+            <h3>My Dream Car</h3>
+            <p>Mazda 3 Hatchback</p>
+            <div class="car-section">
+        <img src="images/mazda3.png" alt="Mazda" class="mazda" />
+    </div>
+        </div>
+     </div>
+
+        <!-- Sound Player Section -->
+        <div class="sound-player">
+            <h3>My Favorite Songs</h3>
+            <div class="song-list">
+                <!-- Song 1 -->
+                <div class="song-box">
+                    <img src="images/suddenshower.jpg" alt="Eclipse - Sudden Shower" class="song-image">
+                    <div class="song-details">
+                        <h2>Eclipse - Sudden Shower</h2>
+                        <div class="controls">
+                            <button class="play-button" onclick="playAudio('song1')">Play</button>
+                            <button class="pause-button" onclick="pauseAudio('song1')">Pause</button>
+                            <button class="stop-button" onclick="stopAudio('song1')">Stop</button>
+                        </div>
+                        <audio id="song1" src="sound/Eclipse-Sudden Shower.mp3"></audio>
+                    </div>
+                </div>
+
+                <!-- Song 2 -->
+                <div class="song-box">
+                    <img src="images/tanparasabersalah-fabio.jpeg" alt="FABIO ASHER - Tanpa Rasa Bersalah" class="song-image">
+                    <div class="song-details">
+                        <h2>Fabio Asher - Tanpa Rasa Bersalah</h2>
+                        <div class="controls">
+                            <button class="play-button" onclick="playAudio('song2')">Play</button>
+                            <button class="pause-button" onclick="pauseAudio('song2')">Pause</button>
+                            <button class="stop-button" onclick="stopAudio('song2')">Stop</button>
+                        </div>
+                        <audio id="song2" src="sound/FABIO ASHER - TANPA RASA BERSALAH.mp3"></audio>
+                    </div>
+                </div>
+
+                <!-- Song 3 -->
+                <div class="song-box">
+                    <img src="images/janam-janam.jpg" alt="Janam Janam - Dilwale" class="song-image">
+                    <div class="song-details">
+                        <h2>Janam Janam - Dilwale</h2>
+                        <div class="controls">
+                            <button class="play-button" onclick="playAudio('song3')">Play</button>
+                            <button class="pause-button" onclick="pauseAudio('song3')">Pause</button>
+                            <button class="stop-button" onclick="stopAudio('song3')">Stop</button>
+                        </div>
+                        <audio id="song3" src="sound/Janam Janam -Dilwale.mp3"></audio>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modern Footer -->
+<footer class="modern-footer">
+    <div class="footer-container">
+        <!-- Section Footer-->
+        <div class="footer-about">
+            <h3>IMD 318</h3>
+            <p>IMD 318 focuses on the creation of a personal website using HTML and CSS, where individuals can effectively present their professional background, skills, and accomplishments. The course empowers individuals to design a polished online portfolio that showcases their expertise and personal brand in a dynamic and visually appealing way.
+            </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-links">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="https://uitm.edu.my/index.php/en/">UiTM</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Me</a></li>
+                    <li><a href="resume.html">Resume</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="achievement.html">Achievement</a></li>
+            </ul>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="footer-contact">
+            <h3>Contact Us</h3>
+            <p>
+                Universiti Teknologi MARA (UiTM) Segamat,<br>
+                Jalan Universiti Off, KM 12, Jalan Muar, Kemajuan Tanah Jementah Batu Sebelas, 85000 Segamat, Johor<br>
+                <strong>Tel:</strong> +60112345678
+            </p>
+            <div class="social-icons">
+                <a href="https://www.instagram.com/nurinkarmilaa.__?igsh=MTNiNm5uaXgwNDJvbQ%3D%3D&utm_source=qr"><img src="images/insta.png" alt="Instagram"></a>
+                <a href="https://t.me/aeryuyin"><img src="images/tele.png" alt="Telegram"></a>
+                <a href="https://www.tiktok.com/@aeryuuuuu?_t=8re1MBy9Qts&_r=1"><img src="images/tiktok.png" alt="TikTok"></a>
+
+                <a href="https://www.facebook.com/nurin.karmila.7927?mibextid=LQQJ4d"><img src="images/fb.png" alt="Facebook"></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+        <p>© Nurin Karmila. All Rights Reserved.</p>
+        <p>
+            <a href="#">Arigato</a> |
+            <a href="#">IMD 318 </a> |
+            <a href="#">Personal Website</a>
+        </p>
+    </div>
+</footer>
+
+    <!-- JavaScript -->
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        // Date and Time
+        function updateDateTime() {
+            var date = new Date();
+            var time = date.toLocaleTimeString();
+            document.getElementById('date-time').innerHTML = time;
+        }
+        setInterval(updateDateTime, 1000);
+
+        // Biodata Image Slideshow
+let currentIndex = 0;
+const images = document.querySelectorAll(".image-row img");
+
+function showNextImage() {
+    // Hide current image
+    images[currentIndex].classList.remove("active");
+
+    // Move to the next image (loop back to the start if at the end)
+    currentIndex = (currentIndex + 1) % images.length;
+
+    // Show next image
+    images[currentIndex].classList.add("active");
+}
+
+// Set interval for image transition (e.g., every 3 seconds)
+setInterval(showNextImage, 3000);
+
+// Initialize the first image
+images[currentIndex].classList.add("active");
+
+         // Audio Functions
+        function playAudio(songId) {
+        var audio = document.getElementById(songId);
+        audio.play();
+        }
+
+    function pauseAudio(songId) {
+        var audio = document.getElementById(songId);
+        audio.pause();
+        }
+
+    function stopAudio(songId) {
+        var audio = document.getElementById(songId);
+        audio.currentTime = 0; // Reset audio to the beginning
+        audio.pause();
+        }
+    // Trigger the fade-in effect on food and drink images
+window.onload = function() {
+    document.getElementById("food-images").classList.add("show");
+    document.getElementById("drink-images").classList.add("show");
+};
+    </script>
+</body>
+</html>
