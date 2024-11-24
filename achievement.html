@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Achievements</title>
+    <style>
+        /* General Reset and Styling */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #c6c6ec; /* Dark gray from index.html */
+            color: white;
+        }
+
+        /* Header Styling with Live Wallpaper */
+        header {
+            position: relative;
+            height: 30vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        /* Video Background */
+        header video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+
+        header h1 {
+            margin: 10px 0;
+            font-size: 2.5em;
+            color:white;
+            z-index: 1;
+        }
+
+        header img {
+            margin-top: 20px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid #000;
+            z-index: 1;
+        }
+
+        /* Date and Time Styling */
+        #date-time {
+            margin-top: 10px;
+            font-size: 1.2em;
+            z-index: 1;
+        }
+
+        /* Logo Styling (Top-Right Corner) */
+        .logo {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #000;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #001f3f;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+            transition: left 0.3s ease;
+            padding-top: 60px;
+            z-index: 1000;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+
+        .sidebar a:hover {
+            background-color: #1E90FF;
+        }
+
+        /* Sidebar Toggle Button */
+        .toggle-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #001f3f;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            z-index: 1100;
+        }
+
+        .toggle-btn:hover {
+            background-color: #1E90FF;
+        }
+
+        /* Modern Footer Styling */
+.modern-footer {
+    background: #002b80;
+    color: white;
+    padding: 40px 20px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.footer-container div {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-about h3,
+.footer-links h3,
+.footer-contact h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #ffd700; /* Gold underline */
+    display: inline-block;
+    padding-bottom: 1px;
+}
+
+.footer-about p,
+.footer-contact p {
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links ul li {
+    margin-bottom: 10px;
+}
+
+.footer-links ul li a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links ul li a:hover {
+    color: #ffd700; /* Gold hover effect */
+}
+
+.social-icons {
+    margin-top: 10px;
+}
+
+.social-icons a img {
+    width: 25px;
+    margin-right: 10px;
+    transition: transform 0.3s ease;
+}
+
+.social-icons a img:hover {
+    transform: scale(1.2);
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 5px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 5px;
+    font-size: 0.8em;
+}
+
+.footer-bottom a {
+    color: #ffd700;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.footer-bottom a:hover {
+    text-decoration: underline;
+}
+/* Keyframes for sliding animation */
+@keyframes slideInOut {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    50% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+        /* Main Content Styling */
+        .main-content {
+            margin: 50px 200px 200px 200px;
+        }
+
+        .card {
+            background-color: #006bb3;
+            margin: 40px 0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        } 
+
+          .card h2 {
+            text-align: center;
+            font-size: 2em;
+            color: #FFD700;
+            border-bottom: 2px solid #FFD700;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        } 
+         .card .gold-line {
+            width: 100%;
+            height: 2px;
+            background-color: #FFD700;
+            margin-bottom: 20px;
+        }
+         .card p {
+            text-align: center;
+            font-size: 1.2em;
+            color: #FFD700;
+            margin-bottom: 20px;
+        }
+          .card ul {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+           .card ul li {
+            font-size: 1.1em;
+            color: #dcdcdc;
+            margin: 5px 0;
+        }
+        .card a {
+            color: #1E90FF;
+            text-decoration: none;
+        }
+
+        .card a:hover {
+            text-decoration: underline;
+        }
+
+        .gif {
+            width: 150px; 
+            height: auto;
+            margin-left: 20px;
+        }
+
+        .card-text {
+            max-width: 70%;
+        }
+      
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+         .images {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.images img {
+    width: 300px; /* Fixed width */
+    height: 225px; /* Height based on 4:3 aspect ratio */
+    object-fit: cover; /* Ensures image covers the area without distortion */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+        .achievement-year {
+            text-align: center;
+            font-size: 2em;
+            color: #FFD700;
+            border-bottom: 2px solid #1E90FF;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .achievement-description {
+            font-size: 1.1em;
+            color: #dcdcdc;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .notification {
+            font-size: 1.2em;
+            color: #FFCC00;
+            background-color: #006bb3;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .achievement-year {
+                font-size: 1.8em;
+            }
+
+            .images {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .images img {
+                width: 90%;
+                margin-bottom: 20px;
+            }
+        
+        
+
+    </style>
+</head>
+<body>
+    <!-- Header with Live Wallpaper -->
+    <header>
+        <video autoplay loop muted>
+            <source src="abstract-organic-lines-moewalls-com.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <h1>My Achievements</h1>
+        <div id="date-time"></div>
+        <img class="logo" src="images/nk.jpg" alt="Website Logo">
+    </header>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Me</a>
+        <a href="achievement.html">Achievement</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="resume.html">My Resume</a>
+        <a href="contact.html">Contact Me</a>
+    </div>
+
+    <!-- Sidebar Toggle Button -->
+    <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- 2024 Achievements Card -->
+        <div class="card">
+            <h2>2024 Achievements</h2>
+            <div class="gold-line"></div>
+            <p>Co-curriculum:</p>
+            <ul>
+                <li>Won third place again in Karisma Women's Esports MLBB.</li>
+                <li>Fourth place in Esports MLBB Axis to Riyadh..</li>
+                <li>Served as the Theater Performance Leader for AGM Kaswara 24/25.</li>
+            </ul>
+            <p>Upcoming:</p>
+            <ul>
+                <li>Representing Putrajaya for KBS Ladies Malaysia MLBB in December.</li>
+            </ul>
+            <p>Academic:</p>
+            <ul>
+                <li>Dean's List for Semester 3 & 4.</li>
+            </ul>
+            <div class="images">
+                <img src="images/20241.jpg" alt="Lineup">
+                <img src="images/20242.jpg" alt="AGM">
+                <img src="images/20243.jpg" alt="Teater">
+            </div>
+        </div>
+
+        <!-- 2023 Achievements Card -->
+        <div class="card">
+            <h2>2023 Achievements</h2>
+            <div class="gold-line"></div>
+            <p>Co-curriculum:</p>
+            <ul>
+                <li>Won third place in Karisma Women's Esports MLBB.</li>
+                <li>Third place in the doubles badminton competition organized by JSP UiTM Johor.</li>
+                <li>Participated in Festa23 at UKM Bangi.</li>
+            </ul>
+            <p>Academic:</p>
+            <ul>
+                <li>Dean's List for Semester 2.</li>
+            </ul>
+            <div class="images">
+                <img src="images/20231.jpg" alt="Poster">
+                <img src="images/20232.jpg" alt="Karisma">
+                <img src="images/20233.jpg" alt="Kawad">
+            </div>
+        </div>
+
+        <!-- 2022 Achievements Card -->
+        <div class="card">
+            <h2>2022 Achievements</h2>
+            <div class="gold-line"></div>
+            <p>Co-curriculum:</p>
+            <ul>
+                <li>Champion in the "Kawad Kaki Formasi" that organized by Komander Kesatria Johor.</li>
+                <li>Fourth place in the Mlbb competition organized by Komander Kesatria Johor.</li>
+                <li>Participated in the Road Relay Competition.</li>
+                <li>Fifth place in Women's Badminton Category at VinWin Sports Kota Tinggi.
+</li>
+            </ul>
+            <div class="images">
+                <img src="images/20221.jpg" alt="Badminton">
+                <img src="images/20222.jpg" alt="Kawad">
+                <img src="images/20223.jpg" alt="Kawad">
+                <img src="images/20224.jpg" alt="Kawad">
+            </div>
+        </div>
+
+        <!-- 2016-2021 Achievements Card -->
+        <div class="card">
+            <h2>2016-2021 Achievements</h2>
+            <div class="gold-line"></div>
+            <p>Co-curriculum:</p>
+            <ul>
+                <li>Champion in the National Theater Competition organized by UNIC.</li>
+                <li>Third place in MSSD Badminton for Secondary School in 2018 & 2019.</li>
+                <li>Third place in National Women's Nasyid competition.</li>
+                <li>Second place in National Women's 'Rempuh Halangan' competition.</li>
+                <li>Champion in 'Merentas Desa' 2017.</li>
+            </ul>
+            <div class="images">
+                <img src="images/20161.jpg" alt="2016">
+                <img src="images/20162.jpg" alt="2016">
+                <img src="images/20163.jpg" alt="2016">
+                <img src="images/20164.jpg" alt="2016">
+                <img src="images/20165.jpg" alt="2016">
+                <img src="images/20166.jpg" alt="2016">
+            </div>
+        </div>
+    </div>
+
+        <!-- Multimedia Notification -->
+        <div class="notification">
+            <p>Stay tuned for more achievements as I progress in my professional career!</p>
+        </div>
+    </div>
+
+    <!-- Modern Footer -->
+<footer class="modern-footer">
+    <div class="footer-container">
+        <!-- Section Footer-->
+        <div class="footer-about">
+            <h3>IMD 318</h3>
+            <p>IMD 318 focuses on the creation of a personal website using HTML and CSS, where individuals can effectively present their professional background, skills, and accomplishments. The course empowers individuals to design a polished online portfolio that showcases their expertise and personal brand in a dynamic and visually appealing way.
+            </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-links">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="https://uitm.edu.my/index.php/en/">UiTM</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Me</a></li>
+                    <li><a href="resume.html">Resume</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="achievement.html">Achievement</a></li>
+            </ul>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="footer-contact">
+            <h3>Contact Us</h3>
+            <p>
+                Universiti Teknologi MARA (UiTM) Segamat,<br>
+                Jalan Universiti Off, KM 12, Jalan Muar, Kemajuan Tanah Jementah Batu Sebelas, 85000 Segamat, Johor<br>
+                <strong>Tel:</strong> +60112345678
+            </p>
+            <div class="social-icons">
+                <a href="https://www.instagram.com/nurinkarmilaa.__?igsh=MTNiNm5uaXgwNDJvbQ%3D%3D&utm_source=qr"><img src="images/insta.png" alt="Instagram"></a>
+                <a href="https://t.me/aeryuyin"><img src="images/tele.png" alt="Telegram"></a>
+                <a href="https://www.tiktok.com/@aeryuuuuu?_t=8re1MBy9Qts&_r=1"><img src="images/tiktok.png" alt="TikTok"></a>
+
+                <a href="https://www.facebook.com/nurin.karmila.7927?mibextid=LQQJ4d"><img src="images/fb.png" alt="Facebook"></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+        <p>© Nurin Karmila. All Rights Reserved.</p>
+        <p>
+            <a href="#">Arigato</a> |
+            <a href="#">IMD 318 </a> |
+            <a href="#">Personal Website</a>
+        </p>
+    </div>
+</footer>
+
+    <script>
+        // Sidebar Toggle Function
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        // Date and Time Function
+        setInterval(function() {
+            const dateTime = new Date();
+            document.getElementById('date-time').innerHTML = dateTime.toLocaleString();
+        }, 1000);
+    </script>
+</body>
+</html>
