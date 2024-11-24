@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karmila Website</title>
+    <style>
+        /* General Reset and Styling */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #c6c6ec; /* Dark gray */
+            color: white;
+        }
+
+        /* Header Styling with Live Wallpaper */
+        header {
+            position: relative;
+            height: 50vh; /* Half viewport height */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white; /* Text color for header */
+            overflow: hidden; /* Prevent overflow from video */
+        }
+
+        /* Video Background */
+        header video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+            z-index: -1; /* Send video to background */
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3em;
+            z-index: 1; /* Keep text above video */
+        }
+
+        header img {
+            margin-top: 20px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%; /* Makes image round */
+            border: 4px solid #000; /* Black border */
+            z-index: 1; /* Keep image above video */
+        }
+
+        /* Date and Time Styling */
+        #date-time {
+            margin-top: 10px;
+            font-size: 1.2em;
+            z-index: 1; /* Keep date above video */
+        }
+
+        /* Logo Styling (Top-Right Corner) */
+        .logo {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%; /* Circular logo */
+            border: 2px solid #000; /* Black border */
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px; /* Initially hidden */
+            width: 250px;
+            height: 100%;
+            background-color: #001f3f; /* Dark Blue */
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+            transition: left 0.3s ease;
+            padding-top: 60px;
+            z-index: 1000;
+        }
+
+        .sidebar.active {
+            left: 0; /* Visible when active */
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+
+        .sidebar a:hover {
+            background-color: #1E90FF; /* Bright Blue */
+        }
+
+        /* Sidebar Toggle Button */
+        .toggle-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #001f3f; /* Dark Blue */
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            z-index: 1100;
+        }
+
+        .toggle-btn:hover {
+            background-color: #1E90FF; /* Bright Blue */
+        }
+
+        /* Modern Footer Styling */
+.modern-footer {
+    background: #002b80;
+    color: white;
+    padding: 40px 20px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.footer-container div {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-about h3,
+.footer-links h3,
+.footer-contact h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #ffd700; /* Gold underline */
+    display: inline-block;
+    padding-bottom: 1px;
+}
+
+.footer-about p,
+.footer-contact p {
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links ul li {
+    margin-bottom: 10px;
+}
+
+.footer-links ul li a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links ul li a:hover {
+    color: #ffd700; /* Gold hover effect */
+}
+
+.social-icons {
+    margin-top: 10px;
+}
+
+.social-icons a img {
+    width: 25px;
+    margin-right: 10px;
+    transition: transform 0.3s ease;
+}
+
+.social-icons a img:hover {
+    transform: scale(1.2);
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 5px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 5px;
+    font-size: 0.8em;
+}
+
+.footer-bottom a {
+    color: #ffd700;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.footer-bottom a:hover {
+    text-decoration: underline;
+}
+/* Keyframes for sliding animation */
+@keyframes slideInOut {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    50% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+        /* Main Content Styling */
+        .main-content {
+            margin: 50px 200px 200px 200px;
+        }
+
+        .card {
+            background-color: #006bb3; /* blue */
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: flex; /* Flexbox layout */
+            align-items: center; /* Vertically align items */
+            justify-content: space-between; /* Space between text and gif */
+        }
+
+        .card a {
+            color: #1E90FF;
+            text-decoration: none;
+        }
+
+        .card a:hover {
+            text-decoration: underline;
+        }
+
+        /* Styling for GIFs */
+        .gif {
+            width: 150px; 
+            height: auto;
+            margin-left: 20px; /* Add space between text and GIF */
+        }
+
+        /* Styling for Text */
+        .card-text {
+            max-width: 70%; /* Allow space for the gif */
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Live Wallpaper -->
+    <header>
+        <video autoplay loop muted>
+            <source src="abstract-organic-lines-moewalls-com.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <h1>Welcome to Nurin's Website</h1>
+        <div id="date-time"></div>
+        <img src="images/nurin.png" alt="Your Profile Picture">
+        <img class="logo" src="images/nk.jpg" alt="Website Logo">
+    </header>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Me</a>
+        <a href="achievement.html">Achievement</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="resume.html">My Resume</a>
+        <a href="contact.html">Contact Me</a>
+    </div>
+
+    <!-- Sidebar Toggle Button -->
+    <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Home Section -->
+        <div id="home" class="card">
+            <div class="card-text">
+                <h2>Hi and Assalamualaikum Everyone!</h2>
+                <p>Explore the navigation sidebar to learn more about me, my experience, and so on!</p>
+            </div>
+            <img class="gif" src="gif/hi.gif" alt="Hi GIF">
+        </div>
+        
+        <!-- About Me Section -->
+        <div id="about" class="card">
+            <div class="card-text">
+                <h2>About Me</h2>
+                <p>
+                    Hello! I'm <b>Nurin</b>. I am a student last semester <i>part 5 in course information management</i> and i love to make <u>system developing</u>. 
+                    <a href="about.html">See More...</a>
+                </p>
+            </div>
+            <img class="gif" src="gif/neko.gif" alt="Neko GIF">
+        </div>
+
+        <!-- Achievement Section -->
+        <div id="achievement" class="card">
+            <div class="card-text">
+                <h2>Achievement</h2>
+                <p>Discover my life journey and achievements. <a href="achievement.html">See More...</a></p>
+            </div>
+            <img class="gif" src="gif/achievement.gif" alt="Achievement GIF">
+        </div>
+
+        <!-- Gallery Section -->
+        <div id="gallery" class="card">
+            <div class="card-text">
+                <h2>Gallery</h2>
+                <p>Check out my gallery and recent life! <a href="gallery.html">See More...</a></p>
+            </div>
+            <img class="gif" src="gif/gallery.gif" alt="Gallery GIF">
+       </div>
+        <!-- Resume Section -->
+        <div id="resume" class="card">
+            <div class="card-text">
+                <h2>My Resume</h2>
+                <p>Take a look at my detailed resume and career highlights. <a href="resume.html">See More...</a></p>
+            </div>
+            <img class="gif" src="gif/resume.gif" alt="Resume GIF">
+       </div>
+
+        <!-- Contact Section -->
+        <div id="contact" class="card">
+            <div class="card-text">
+                <h2>Contact Me</h2>
+                <p>Feel free to reach out to me for collaborations or queries! <a href="contact.html">See More...</a></p>
+            </div>
+            <img class="gif" src="gif/wave.gif" alt="Contact GIF">
+       </div>
+    </div>
+
+    <!-- Modern Footer -->
+<footer class="modern-footer">
+    <div class="footer-container">
+        <!-- Section Footer-->
+        <div class="footer-about">
+            <h3>IMD 318</h3>
+            <p>IMD 318 focuses on the creation of a personal website using HTML and CSS, where individuals can effectively present their professional background, skills, and accomplishments. The course empowers individuals to design a polished online portfolio that showcases their expertise and personal brand in a dynamic and visually appealing way.
+            </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-links">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="https://uitm.edu.my/index.php/en/">UiTM</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Me</a></li>
+                    <li><a href="resume.html">Resume</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="achievement.html">Achievement</a></li>
+            </ul>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="footer-contact">
+            <h3>Contact Us</h3>
+            <p>
+                Universiti Teknologi MARA (UiTM) Segamat,<br>
+                Jalan Universiti Off, KM 12, Jalan Muar, Kemajuan Tanah Jementah Batu Sebelas, 85000 Segamat, Johor<br>
+                <strong>Tel:</strong> +60112345678
+            </p>
+            <div class="social-icons">
+                <a href="https://www.instagram.com/nurinkarmilaa.__?igsh=MTNiNm5uaXgwNDJvbQ%3D%3D&utm_source=qr"><img src="images/insta.png" alt="Instagram"></a>
+                <a href="https://t.me/aeryuyin"><img src="images/tele.png" alt="Telegram"></a>
+                <a href="https://www.tiktok.com/@aeryuuuuu?_t=8re1MBy9Qts&_r=1"><img src="images/tiktok.png" alt="TikTok"></a>
+
+                <a href="https://www.facebook.com/nurin.karmila.7927?mibextid=LQQJ4d"><img src="images/fb.png" alt="Facebook"></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+        <p>© Nurin Karmila. All Rights Reserved.</p>
+        <p>
+            <a href="#">Arigato</a> |
+            <a href="#">IMD 318 </a> |
+            <a href="#">Personal Website</a>
+        </p>
+    </div>
+</footer>
+
+    <script>
+        // Sidebar Toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // Date and Time Display
+        function updateDateTime() {
+            const dateTimeElement = document.getElementById('date-time');
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = now.toLocaleDateString(undefined, options);
+            const formattedTime = now.toLocaleTimeString();
+            dateTimeElement.innerHTML = `${formattedDate} | ${formattedTime}`;
+        }
+
+        // Update the date and time every second
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+    </script>
+</body>
+</html>
+
+
+
+
+
+
